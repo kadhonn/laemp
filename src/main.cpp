@@ -9,7 +9,7 @@ struct Sample {
     void (*run)();
 };
 
-#define FIXED_SAMPLE (2)
+#define FIXED_SAMPLE (-1)
 #define SAMPLES_SIZE 3
 Sample samples[SAMPLES_SIZE] = {
         {&setup_rainbow_rows,  &rainbow_rows},
@@ -33,6 +33,7 @@ bool autoLoop;
 ulong nextSampleTimer;
 
 void setup() {
+    Serial.begin(115200);
     if (FIXED_SAMPLE != -1) {
         currentSample = FIXED_SAMPLE;
         autoLoop = false;
@@ -42,6 +43,7 @@ void setup() {
         resetAutoLoopTimer();
     }
     strip.setBrightness(20);
+//    strip.setBrightness(90); //is max
     strip.begin();
 }
 
