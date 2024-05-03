@@ -1,19 +1,40 @@
 #include "common.h"
 
-int rolling_ball_tick = 0;
+#define BALL_WIDTH (3)
+#define INITIAL_SPEED (0.5)
+#define ACCELERATION (0.001)
+
+struct RollingBallData {
+    float pos;
+    float speed;
+    int color;
+};
+
+RollingBallData rollingBallData;
 
 void setup_rolling_ball() {
-    rolling_ball_tick = 0;
+    rollingBallData = RollingBallData{
+            LEDS_COUNT,
+            INITIAL_SPEED,
+            0,
+    };
 }
 
 void rolling_ball() {
-    int color = (rolling_ball_tick / LEDS_COUNT * 180) % 256;
-    int j = (rolling_ball_tick % LEDS_COUNT);
     for (int i = 0; i < LEDS_COUNT; i++) {
         strip.setLedColorData(i, 0, 0, 0);
     }
-    int pos = LEDS_COUNT - j * pow((float) j / (float) LEDS_COUNT, 0.5);
-    for (int i = max(pos - 3, 0); i < min(pos + 3, LEDS_COUNT); i++) {
-        strip.setLedColorData(i, strip.Wheel(color));
+    for (int i = max((int) rollingBallData.pos - BALL_WIDTH, 0);
+         i < min((int) rollingBallData.pos + BALL_WIDTH, LEDS_COUNT); i++) {
+        strip.setLedColorData(i, strip.Wheel(rollingBallData.color));
+    }
+
+    rollingBallData.pos -= rollingBallData.speed;
+    rollingBallData.speed += ACCELERATION;
+
+    if (rollingBallData.pos < 0) {
+        rollingBallData.pos = LEDS_COUNT;
+        rollingBallData.speed = INITIAL_SPEED;
+        rollingBallData.color = (rollingBallData.color + 180) % 256;
     }
 }
