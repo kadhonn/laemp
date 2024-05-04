@@ -4,10 +4,10 @@
 
 
 #define MODIFIER 4
-#define WIDTH (18*MODIFIER)
-#define HEIGHT (20*MODIFIER)
+#define FIELD_WIDTH (18*MODIFIER)
+#define FIELD_HEIGHT (20*MODIFIER)
 
-extern uint32_t field[WIDTH][HEIGHT];
+extern uint32_t field[FIELD_WIDTH][FIELD_HEIGHT];
 
 
 uint32_t get_led_color(int i);

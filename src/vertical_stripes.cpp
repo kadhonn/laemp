@@ -13,10 +13,10 @@ void setup_vertical_stripes() {
 }
 
 void vertical_stripes() {
-    for (int x = 0; x < WIDTH; x++) {
-        for (int y = 0; y < HEIGHT; y++) {
-            int mod_x = (vertical_stripes_data.tick / 2 + x) % WIDTH;
-            field[x][y] = strip.Wheel((byte) (((float) mod_x) / WIDTH * 255.0));
+    for (int x = 0; x < FIELD_WIDTH; x++) {
+        for (int y = 0; y < FIELD_HEIGHT; y++) {
+            int mod_x = (vertical_stripes_data.tick / 2 + x) % FIELD_WIDTH;
+            field[x][y] = strip.Wheel((byte) (((float) mod_x) / FIELD_WIDTH * 255.0));
         }
     }
     show_field();

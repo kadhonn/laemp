@@ -1,7 +1,7 @@
 #include "field_helper.h"
 
 
-uint32_t field[WIDTH][HEIGHT];
+uint32_t field[FIELD_WIDTH][FIELD_HEIGHT];
 
 uint32_t getField(int x, int y);
 
@@ -12,8 +12,8 @@ void show_field() {
 }
 
 void set_field_zero() {
-    for (int x = 0; x < WIDTH; x++) {
-        for (int y = 0; y < HEIGHT; y++) {
+    for (int x = 0; x < FIELD_WIDTH; x++) {
+        for (int y = 0; y < FIELD_HEIGHT; y++) {
             field[x][y] = 0;
         }
     }
@@ -79,5 +79,5 @@ uint32_t get_led_color(int i) {
 }
 
 uint32_t getField(int x, int y) {
-    return field[(x + WIDTH) % WIDTH][constrain(y, 0, HEIGHT - 1)];
+    return field[(x + FIELD_WIDTH) % FIELD_WIDTH][constrain(y, 0, FIELD_HEIGHT - 1)];
 }

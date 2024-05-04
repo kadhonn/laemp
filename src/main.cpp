@@ -10,7 +10,7 @@ struct Sample {
     void (*run)();
 };
 
-#define FIXED_SAMPLE (3)
+#define FIXED_SAMPLE (-1)
 #define SAMPLES_SIZE 4
 Sample samples[SAMPLES_SIZE] = {
         {&setup_rainbow_rows,  &rainbow_rows},
