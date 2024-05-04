@@ -7,9 +7,9 @@ void setup_rainbow_solid() {
 }
 
 void rainbow_solid() {
-    byte last_color_index = (rainbow_solid_tick / 4) % 256;
+    byte last_color_index = (rainbow_solid_tick / 2) % 256;
     byte next_color_index = (last_color_index + 1) % 256;
-    byte step = rainbow_solid_tick & 0b11;
+    byte step = rainbow_solid_tick & 0b1;
 
     int last_color = strip.Wheel(last_color_index);
     int next_color = strip.Wheel(next_color_index);
@@ -22,9 +22,9 @@ void rainbow_solid() {
     byte next_g = next_color >> 8;
     byte next_b = next_color;
 
-    byte current_r = (last_r * (4 - step) + next_r * step) / 4;
-    byte current_g = (last_g * (4 - step) + next_g * step) / 4;
-    byte current_b = (last_b * (4 - step) + next_b * step) / 4;
+    byte current_r = (last_r * (2 - step) + next_r * step) / 2;
+    byte current_g = (last_g * (2 - step) + next_g * step) / 2;
+    byte current_b = (last_b * (2 - step) + next_b * step) / 2;
 
     for (int i = 0; i < LEDS_COUNT; i++) {
         strip.setLedColorData(i, current_r, current_g, current_b);

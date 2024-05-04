@@ -42,7 +42,7 @@ void setup() {
         autoLoop = true;
         resetAutoLoopTimer();
     }
-    strip.setBrightness(20);
+    strip.setBrightness(60);
 //    strip.setBrightness(90); //is max
     strip.begin();
 }
