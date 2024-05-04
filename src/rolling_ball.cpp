@@ -10,10 +10,10 @@ struct RollingBallData {
     int color;
 };
 
-RollingBallData rollingBallData;
+RollingBallData rolling_ball_data;
 
 void setup_rolling_ball() {
-    rollingBallData = RollingBallData{
+    rolling_ball_data = RollingBallData{
             LEDS_COUNT,
             INITIAL_SPEED,
             0,
@@ -24,17 +24,17 @@ void rolling_ball() {
     for (int i = 0; i < LEDS_COUNT; i++) {
         strip.setLedColorData(i, 0, 0, 0);
     }
-    for (int i = max((int) rollingBallData.pos - BALL_WIDTH, 0);
-         i < min((int) rollingBallData.pos + BALL_WIDTH, LEDS_COUNT); i++) {
-        strip.setLedColorData(i, strip.Wheel(rollingBallData.color));
+    for (int i = max((int) rolling_ball_data.pos - BALL_WIDTH, 0);
+         i < min((int) rolling_ball_data.pos + BALL_WIDTH, LEDS_COUNT); i++) {
+        strip.setLedColorData(i, strip.Wheel(rolling_ball_data.color));
     }
 
-    rollingBallData.pos -= rollingBallData.speed;
-    rollingBallData.speed += ACCELERATION;
+    rolling_ball_data.pos -= rolling_ball_data.speed;
+    rolling_ball_data.speed += ACCELERATION;
 
-    if (rollingBallData.pos < 0) {
-        rollingBallData.pos = LEDS_COUNT;
-        rollingBallData.speed = INITIAL_SPEED;
-        rollingBallData.color = (rollingBallData.color + 180) % 256;
+    if (rolling_ball_data.pos < 0) {
+        rolling_ball_data.pos = LEDS_COUNT;
+        rolling_ball_data.speed = INITIAL_SPEED;
+        rolling_ball_data.color = (rolling_ball_data.color + 180) % 256;
     }
 }
