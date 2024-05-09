@@ -7,10 +7,11 @@
 #define FIELD_WIDTH (18*MODIFIER)
 #define FIELD_HEIGHT (20*MODIFIER)
 
-extern uint32_t field[FIELD_WIDTH][FIELD_HEIGHT];
+void setup_field();
 
+void set_field_value(uint32_t value, int x, int y);
 
-uint32_t get_led_color(int i);
+uint32_t get_field_value(int x, int y);
 
 void show_field();
 

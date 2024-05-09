@@ -1,4 +1,5 @@
 #include "common.h"
+#include "field_helper.h"
 #include "rainbow_rows.h"
 #include "rainbow_solid.h"
 #include "rolling_ball.h"
@@ -44,6 +45,7 @@ void setup() {
         autoLoop = true;
         resetAutoLoopTimer();
     }
+    setup_field();
     strip.setBrightness(60);
 //    strip.setBrightness(90); //is max
     strip.begin();

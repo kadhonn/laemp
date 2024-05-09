@@ -1,22 +1,18 @@
 #include "field_helper.h"
 
 
-uint32_t field[FIELD_WIDTH][FIELD_HEIGHT];
+uint32_t *field;
 
-uint32_t getField(int x, int y);
-
-void show_field() {
-    for (int i = 0; i < LEDS_COUNT; i++) {
-        strip.setLedColorData(i, get_led_color(i));
-    }
+uint32_t get_field_value(int x, int y) {
+    int real_x = (x + FIELD_WIDTH) % FIELD_WIDTH;
+    int real_y = constrain(y, 0, FIELD_HEIGHT - 1);
+    return field[real_y * FIELD_WIDTH + real_x];
 }
 
-void set_field_zero() {
-    for (int x = 0; x < FIELD_WIDTH; x++) {
-        for (int y = 0; y < FIELD_HEIGHT; y++) {
-            field[x][y] = 0;
-        }
-    }
+void set_field_value(uint32_t value, int x, int y) {
+    int real_x = (x + FIELD_WIDTH) % FIELD_WIDTH;
+    int real_y = constrain(y, 0, FIELD_HEIGHT - 1);
+    field[real_y * FIELD_WIDTH + real_x] = value;
 }
 
 uint32_t get_led_color(int i) {
@@ -62,7 +58,7 @@ uint32_t get_led_color(int i) {
         int point_x = points[j][0];
         int point_y = points[j][1];
         double weight = pow(4, 2) - pow((abs(point_x - x) + abs(point_y - y)), 2);
-        color = getField(point_x, point_y);
+        color = get_field_value(point_x, point_y);
         r += (color >> 16 & 0xFF) * weight;
         g += (color >> 8 & 0xFF) * weight;
         b += (color & 0xFF) * weight;
@@ -78,6 +74,21 @@ uint32_t get_led_color(int i) {
             | constrain((int) round(b), 0, 255);
 }
 
-uint32_t getField(int x, int y) {
-    return field[(x + FIELD_WIDTH) % FIELD_WIDTH][constrain(y, 0, FIELD_HEIGHT - 1)];
+void show_field() {
+    for (int i = 0; i < LEDS_COUNT; i++) {
+        strip.setLedColorData(i, get_led_color(i));
+    }
+}
+
+void set_field_zero() {
+    for (int x = 0; x < FIELD_WIDTH; x++) {
+        for (int y = 0; y < FIELD_HEIGHT; y++) {
+            set_field_value(0, x, y);
+        }
+    }
+}
+
+void setup_field() {
+    field = static_cast<uint32_t *>(malloc(FIELD_HEIGHT * FIELD_WIDTH * sizeof(uint32_t)));
+    set_field_zero();
 }
