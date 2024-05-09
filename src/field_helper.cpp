@@ -15,12 +15,23 @@ void set_field_value(uint32_t value, int x, int y) {
     field[real_y * FIELD_WIDTH + real_x] = value;
 }
 
-uint32_t get_led_color(int i) {
-    double unbounded_x = 1.612 * i;
-    int rounded_x_division = floor(unbounded_x / (18.85));
+double map(double value, double from_start, double from_end, double to_start, double to_end) {
+    double from_range = from_end - from_start;
+    double to_range = to_end - to_start;
 
-    double x = (unbounded_x - rounded_x_division * (18.85)) * MODIFIER;
-    double y = (0.1 * i) * MODIFIER;
+    return (value - from_start) / from_range * to_range + to_start;
+}
+
+uint32_t get_led_color(int i) {
+    double unbounded_x = X_PER_I * i;
+    int rounded_x_division = floor(unbounded_x / CIRCUMFERENCE);
+
+    double real_x = (unbounded_x - rounded_x_division * CIRCUMFERENCE);
+    double real_y = (Y_PER_I * i);
+
+    //mapped onto field coordinates
+    double x = map(real_x, 0, MAX_X, 0, FIELD_WIDTH);
+    double y = map(real_y, 0, MAX_Y, 0, FIELD_HEIGHT);
 
     int x_floor = floor(x);
     int x_ceil = ceil(x);
