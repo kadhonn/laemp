@@ -40,10 +40,10 @@ ulong nextSampleTimer;
 void setup() {
     Serial.begin(115200);
     if (FIXED_SAMPLE != -1) {
-        currentSample = FIXED_SAMPLE;
+        setCurrentSample(FIXED_SAMPLE);
         autoLoop = false;
     } else {
-        currentSample = 0;
+        setCurrentSample(0);
         autoLoop = true;
         resetAutoLoopTimer();
     }

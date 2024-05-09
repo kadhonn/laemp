@@ -10,6 +10,6 @@ extern int8_t figure_square[PIC_SIZE * PIC_SIZE / 8];
 extern int8_t figure_heart[PIC_SIZE * PIC_SIZE / 8];
 
 void paint_figure(int x_pos, int y_pos,
-                  int x_mod, int y_mod,
+                  int x_size, int y_size,
                   uint32_t color,
                   int8_t *figure);
