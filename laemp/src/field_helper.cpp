@@ -70,12 +70,16 @@ void show_field() {
     }
 }
 
-void set_field_zero() {
+void set_field_color(uint32_t color){
     for (int x = 0; x < FIELD_WIDTH; x++) {
         for (int y = 0; y < FIELD_HEIGHT; y++) {
-            set_field_value(0, x, y);
+            set_field_value(color, x, y);
         }
     }
+}
+
+void set_field_zero() {
+    set_field_color(0);
 }
 
 void setup_field() {

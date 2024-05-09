@@ -15,6 +15,8 @@
 #define MUSHING_WIDTH 11
 #define MUSHING_HEIGHT 5
 
+#define PIC_SIZE 16
+
 void setup_field();
 
 void set_field_value(uint32_t value, int x, int y);
@@ -24,3 +26,5 @@ uint32_t get_field_value(int x, int y);
 void show_field();
 
 void set_field_zero();
+
+void set_field_color(uint32_t color);
