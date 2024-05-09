@@ -4,6 +4,7 @@
 #include "rainbow_solid.h"
 #include "rolling_ball.h"
 #include "vertical_stripes.h"
+#include "hearts.h"
 
 struct Sample {
     void (*reset)();
@@ -11,13 +12,14 @@ struct Sample {
     void (*run)();
 };
 
-#define FIXED_SAMPLE (-1)
-#define SAMPLES_SIZE 4
+#define FIXED_SAMPLE (4)
+#define SAMPLES_SIZE 5
 Sample samples[SAMPLES_SIZE] = {
         {&setup_rainbow_rows,  &rainbow_rows},
         {&setup_rainbow_solid, &rainbow_solid},
         {&setup_rolling_ball,  &rolling_ball},
         {&setup_vertical_stripes,  &vertical_stripes},
+        {&setup_hearts,  &hearts},
 };
 
 Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL);

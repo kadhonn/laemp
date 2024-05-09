@@ -9,3 +9,5 @@
 
 #pragma once
 extern Freenove_ESP32_WS2812 strip;
+
+double map(double value, double from_start, double from_end, double to_start, double to_end);
