@@ -5,6 +5,7 @@
 #include "rolling_ball.h"
 #include "vertical_stripes.h"
 #include "hearts.h"
+#include "bubbles.h"
 
 struct Sample {
     void (*reset)();
@@ -20,6 +21,7 @@ Sample samples[SAMPLES_SIZE] = {
         {&setup_rolling_ball,  &rolling_ball},
         {&setup_vertical_stripes,  &vertical_stripes},
         {&setup_hearts,  &hearts},
+        {&setup_bubbles,  &bubbles},
 };
 
 Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL);
@@ -39,6 +41,7 @@ ulong nextSampleTimer;
 
 void setup() {
     Serial.begin(115200);
+    randomSeed(0);
     if (FIXED_SAMPLE != -1) {
         setCurrentSample(FIXED_SAMPLE);
         autoLoop = false;
