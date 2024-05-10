@@ -2,10 +2,8 @@
 
 #pragma once
 
-#define PIC_SIZE 16
+#define PIC_SIZE 8
 
-
-extern int8_t figure_square[PIC_SIZE * PIC_SIZE / 8];
 
 extern int8_t figure_heart[PIC_SIZE * PIC_SIZE / 8];
 

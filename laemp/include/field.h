@@ -3,19 +3,15 @@
 #pragma once
 
 
-#define MODIFIER_X 6
-#define MODIFIER_Y 4
-#define FIELD_WIDTH (20 * MODIFIER_X)
-#define FIELD_HEIGHT (20 * MODIFIER_Y)
+#define FIELD_WIDTH 90
+#define FIELD_HEIGHT 60
 #define X_PER_I (1.667)
 #define Y_PER_I (0.095)
 #define CIRCUMFERENCE (19.45)
 #define MAX_X (CIRCUMFERENCE)
 #define MAX_Y (Y_PER_I * LEDS_COUNT)
-#define MUSHING_WIDTH 11
-#define MUSHING_HEIGHT 5
-
-#define PIC_SIZE 16
+#define MUSHING_WIDTH 7
+#define MUSHING_HEIGHT 3
 
 void setup_field();
 

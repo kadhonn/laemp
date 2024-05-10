@@ -14,9 +14,10 @@ void setup_vertical_stripes() {
 
 void vertical_stripes() {
     for (int x = 0; x < FIELD_WIDTH; x++) {
+        int mod_x = (vertical_stripes_data.tick / 2 + x) % FIELD_WIDTH;
+        uint32_t color = strip.Wheel((byte) (((float) mod_x) / FIELD_WIDTH * 255.0));
         for (int y = 0; y < FIELD_HEIGHT; y++) {
-            int mod_x = (vertical_stripes_data.tick / 2 + x) % FIELD_WIDTH;
-            set_field_value(strip.Wheel((byte) (((float) mod_x) / FIELD_WIDTH * 255.0)), x, y);
+            set_field_value(color, x, y);
         }
     }
     show_field();

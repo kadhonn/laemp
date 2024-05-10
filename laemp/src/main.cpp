@@ -13,8 +13,8 @@ struct Sample {
     void (*run)();
 };
 
-#define FIXED_SAMPLE (4)
-#define SAMPLES_SIZE 5
+#define FIXED_SAMPLE (5)
+#define SAMPLES_SIZE 6
 Sample samples[SAMPLES_SIZE] = {
         {&setup_rainbow_rows,  &rainbow_rows},
         {&setup_rainbow_solid, &rainbow_solid},
@@ -65,6 +65,9 @@ void loop() {
     ulong now = millis();
     if (nextTick > now) {
         delay(nextTick - now);
+    }else{
+        Serial.print("!");
+        Serial.println((long)nextTick - (long)now);
     }
 }
 

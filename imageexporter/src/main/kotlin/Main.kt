@@ -4,7 +4,7 @@ import java.io.FileInputStream
 import java.util.*
 import javax.imageio.ImageIO
 
-const val DIMENSION = 16
+const val DIMENSION = 8
 
 fun main() {
 //
@@ -19,7 +19,7 @@ fun main() {
 //        println()
 //    }
 
-    val bufferedImage = ImageIO.read(FileInputStream("C:\\Users\\ablei\\Downloads\\square.png"))
+    val bufferedImage = ImageIO.read(FileInputStream("C:\\Users\\ablei\\Downloads\\bubble_8.png"))
     if (bufferedImage.height != DIMENSION || bufferedImage.width != DIMENSION) {
         println("buffered image has wrong dimensions ${bufferedImage.width}x${bufferedImage.height}")
         return
@@ -36,7 +36,7 @@ fun main() {
     }
 
     val byteArray = bitSet.toByteArray()
-    for (i in 0 until 4 * 8) {
+    for (i in 0 until (DIMENSION * DIMENSION / 8)) {
         if (byteArray.size > i) {
             print(byteArray[i])
         } else {

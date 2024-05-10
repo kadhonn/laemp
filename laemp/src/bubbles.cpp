@@ -42,8 +42,8 @@ void try_spawn_bubble() {
                 true,
                 (float) random(0, FIELD_WIDTH),
                 -80,
-                ((float) random(50, 250)) / 100,
-                random(1,3)
+                ((float) random(50, 250)) / 400,
+                random(1,5)
         };
     }
 }
