@@ -68,8 +68,9 @@ void loop() {
     if (nextTick > now) {
         delay(nextTick - now);
     }else{
-        Serial.print("!");
-        Serial.println((long)nextTick - (long)now);
+        //for performance debugging
+//        Serial.print("!");
+//        Serial.println((long)nextTick - (long)now);
     }
 }
 
