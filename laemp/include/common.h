@@ -7,6 +7,8 @@
 #define FPS 60
 #define SAMPLE_LENGTH_MS (1000 * 60 * 3)
 
+#define START_SERVER 1
+
 #pragma once
 extern Freenove_ESP32_WS2812 strip;
 
