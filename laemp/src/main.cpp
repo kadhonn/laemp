@@ -6,6 +6,7 @@
 #include "vertical_stripes.h"
 #include "hearts.h"
 #include "bubbles.h"
+#include "noise_sample.h"
 
 struct Sample {
     void (*reset)();
@@ -13,8 +14,8 @@ struct Sample {
     void (*run)();
 };
 
-#define FIXED_SAMPLE (5)
-#define SAMPLES_SIZE 6
+#define FIXED_SAMPLE (6)
+#define SAMPLES_SIZE 7
 Sample samples[SAMPLES_SIZE] = {
         {&setup_rainbow_rows,  &rainbow_rows},
         {&setup_rainbow_solid, &rainbow_solid},
@@ -22,6 +23,7 @@ Sample samples[SAMPLES_SIZE] = {
         {&setup_vertical_stripes,  &vertical_stripes},
         {&setup_hearts,  &hearts},
         {&setup_bubbles,  &bubbles},
+        {&setup_noise,  &noise},
 };
 
 Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL);
