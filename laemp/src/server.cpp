@@ -51,9 +51,9 @@ void setup_server() {
         State state = get_current_state();
         char message[1024];
         snprintf(message, 1024,
-                 R"({"currentSample":"%d", "loop":"%s", "random":"%s", "samples":[%s]})",
+                 R"({"currentSample":"%d", "autoloop":"%s", "random":"%s", "samples":[%s]})",
                  state.currentSample,
-                 state.loop ? "true" : "false",
+                 state.autoloop ? "true" : "false",
                  state.random ? "true" : "false",
                  get_samples_string(state.samples, state.samplesCount).c_str());
         request->send(200, "application/json", message);

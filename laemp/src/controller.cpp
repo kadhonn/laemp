@@ -113,7 +113,7 @@ State get_current_state() {
     return State{
             currentSample,
             autoLoop,
-            false,
+            randomLoop,
             sample_names,
             SAMPLES_SIZE
     };

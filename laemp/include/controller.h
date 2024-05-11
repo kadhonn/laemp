@@ -4,7 +4,7 @@
 
 struct State {
     int currentSample;
-    bool loop;
+    bool autoloop;
     bool random;
     std::string **samples;
     int samplesCount;
