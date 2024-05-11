@@ -36,14 +36,20 @@ uint32_t get_led_color(int i) {
     int rounded_x = entry.rounded_x;
     int rounded_y = entry.rounded_y;
 
-    double r = 0;
-    double g = 0;
-    double b = 0;
+    int xStart = rounded_x - offset_x;
+    int xEnd = rounded_x + offset_x + odd_x;
+    int yStart = max(rounded_y - offset_y, 0);
+    int yEnd = min(rounded_y + offset_y + odd_y, FIELD_HEIGHT - 1);
+
+    uint32_t r = 0;
+    uint32_t g = 0;
+    uint32_t b = 0;
     int count = 0;
     uint32_t color;
-    for (int x = rounded_x - offset_x; x <= rounded_x + offset_x + odd_x; x++) {
+
+    for (int x = xStart; x <= xEnd; x++) {
         int real_x = ((x % FIELD_WIDTH) + FIELD_WIDTH) % FIELD_WIDTH;
-        for (int y = max(rounded_y - offset_y, 0); y <= min(rounded_y + offset_y + odd_y, FIELD_HEIGHT - 1); y++) {
+        for (int y = yStart; y <= yEnd; y++) {
             color = field[y * FIELD_WIDTH + real_x];
             r += (color >> 16 & 0xFF);
             g += (color >> 8 & 0xFF);
@@ -59,9 +65,7 @@ uint32_t get_led_color(int i) {
     b = b / count;
 
     return
-            constrain((uint32_t) round(r), 0, 255) << 16
-            | constrain((uint32_t) round(g), 0, 255) << 8
-            | constrain((uint32_t) round(b), 0, 255);
+            (r &255) << 16 | (g&255)<<8|(b&255);
 }
 
 void show_field() {
