@@ -1,37 +1,78 @@
 #include "figures.h"
 
-struct HeartsData {
+#define NUM_HEARTS 4
+
+struct Heart {
     float x;
     float y;
+    float vel_x;
+    float vel_y;
+    int change_vel;
+    int size;
+};
+
+struct HeartsData {
     int tick;
+    Heart hearts[NUM_HEARTS];
 };
 
 HeartsData hearts_data;
 
+float randomVelocity() {
+    return ((float) random(0, 100) - 50.f) / 150.f;
+}
+
+int randomDuration() {
+    return random(3, 10) * FPS;
+}
+
 void setup_hearts() {
-    hearts_data = HeartsData{
-            (float) FIELD_WIDTH / 2.0,
-            (float) FIELD_HEIGHT / 2.0,
-            0,
-    };
+    hearts_data.tick = 0;
+    for (int i = 0; i < NUM_HEARTS; i++) {
+        hearts_data.hearts[i] = Heart{
+                (float) random(0, FIELD_WIDTH),
+                (float) random(0, FIELD_HEIGHT),
+                randomVelocity(),
+                randomVelocity(),
+                randomDuration(),
+                random(3, 6)
+        };
+    }
+}
+
+void render_hearts(int hue) {
+    uint32_t heart_color = strip.Wheel(strip.hsv2rgb(hue, 100, 100));
+    for (int i = 0; i < NUM_HEARTS; i++) {
+        int x_pos = (int) round(hearts_data.hearts[i].x);
+        int y_pos = (int) round(hearts_data.hearts[i].y);
+        int size = hearts_data.hearts[i].size;
+
+        paint_figure_ywrapping(x_pos, y_pos, size, size, heart_color, figure_heart);
+    }
+}
+
+void update_hearts() {
+    for (int i = 0; i < NUM_HEARTS; i++) {
+        if (hearts_data.hearts[i].change_vel <= hearts_data.tick) {
+            hearts_data.hearts[i].change_vel = hearts_data.tick + randomDuration();
+            hearts_data.hearts[i].vel_x = randomVelocity();
+            hearts_data.hearts[i].vel_y = randomVelocity();
+        }
+        hearts_data.hearts[i].x += hearts_data.hearts[i].vel_x;
+        hearts_data.hearts[i].y += hearts_data.hearts[i].vel_y;
+    }
 }
 
 void hearts() {
     hearts_data.tick++;
-    hearts_data.x += 0.1;
-    hearts_data.y += sin(hearts_data.tick * 0.02) * 0.1;
 
-    int x_pos = (int) hearts_data.x;
-    int y_pos = (int) hearts_data.y;
-    uint32_t front_color = strip.Wheel(0);
-    uint32_t back_color = strip.hsv2rgb(220, 100, 50);
-    int x_size = 4;
-    int y_size = 4;
-    int8_t *figure = figure_heart;
+    int hue = (hearts_data.tick / 8) % 360;
 
-    set_field_color(back_color);
+    update_hearts();
 
-    paint_figure(x_pos, y_pos, x_size, y_size, front_color, figure);
+    set_field_color(strip.hsv2rgb((hue + 180) % 360, 50, 50));
 
-    show_field();
+    render_hearts(hue);
+
+    show_field_ywrapping();
 }

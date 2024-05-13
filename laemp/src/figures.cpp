@@ -4,13 +4,10 @@ int8_t figure_heart[PIC_SIZE * PIC_SIZE / 8] =
         {66, -25, -1, -1, 126, 126, 60, 24,};
 
 int8_t figure_bubble[PIC_SIZE * PIC_SIZE / 8] =
-        {24,60,102,-61,-61,102,60,24,};
+        {24, 60, 102, -61, -61, 102, 60, 24,};
 
-void paint_figure(int x_pos, int y_pos,
-                  int x_size, int y_size,
-                  uint32_t color,
-                  int8_t *figure) {
-
+void paint_figure_internal(int x_pos, int y_pos, int x_size, int y_size, uint32_t color, const int8_t *figure,
+                           bool y_wrapping) {
     for (int pic_y = 0; pic_y < PIC_SIZE; pic_y++) {
         for (int pic_x = 0; pic_x < PIC_SIZE; pic_x++) {
             int n = pic_y * PIC_SIZE + pic_x;
@@ -23,10 +20,28 @@ void paint_figure(int x_pos, int y_pos,
                 int field_y = y_pos + y_offset;
                 for (int x = field_x; x < field_x + x_size; x++) {
                     for (int y = field_y; y < field_y + y_size; y++) {
-                        set_field_value(color, x, y);
+                        if (y_wrapping) {
+                            set_field_value_ywrapping(color, x, y);
+                        } else {
+                            set_field_value(color, x, y);
+                        }
                     }
                 }
             }
         }
     }
+}
+
+void paint_figure(int x_pos, int y_pos,
+                  int x_size, int y_size,
+                  uint32_t color,
+                  int8_t *figure) {
+    paint_figure_internal(x_pos, y_pos, x_size, y_size, color, figure, false);
+}
+
+void paint_figure_ywrapping(int x_pos, int y_pos,
+                            int x_size, int y_size,
+                            uint32_t color,
+                            int8_t *figure) {
+    paint_figure_internal(x_pos, y_pos, x_size, y_size, color, figure, true);
 }
