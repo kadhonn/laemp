@@ -48,14 +48,14 @@ void try_spawn_bubble() {
     }
 }
 
-void render_bubbles() {
-    uint32_t front_color = strip.Wheel(0);
+void render_bubbles(int hue) {
+    uint32_t bubble_color = strip.hsv2rgb(hue, 10, 100);
     int8_t *figure = figure_bubble;
 
     for (int i = 0; i < MAX_BUBBLES; i++) {
         Bubble bubble = bubbles_data.bubbles[i];
         if (bubble.active) {
-            paint_figure(bubble.x, bubble.y, bubble.size, bubble.size, front_color, figure);
+            paint_figure(bubble.x, bubble.y, bubble.size, bubble.size, bubble_color, figure);
         }
     }
 }
@@ -84,10 +84,10 @@ void bubbles() {
 
     update_bubbles();
 
-    uint32_t back_color = strip.hsv2rgb(220, 100, 50);
-    set_field_color(back_color);
+    int hue = bubbles_data.tick / 8 % 360;
+    set_field_color(strip.hsv2rgb(hue, 100, 50));
 
-    render_bubbles();
+    render_bubbles(hue);
 
     show_field();
 
