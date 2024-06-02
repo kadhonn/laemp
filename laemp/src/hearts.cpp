@@ -70,7 +70,7 @@ void hearts() {
 
     update_hearts();
 
-    set_field_color(strip.hsv2rgb((hue + 180) % 360, 50, 50));
+    set_field_color(strip.hsv2rgb(((hue + 180) % 360), 50, 50));
 
     render_hearts(hue);
 
