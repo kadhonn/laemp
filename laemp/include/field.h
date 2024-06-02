@@ -5,7 +5,7 @@
 
 #define FIELD_WIDTH 120
 #define FIELD_HEIGHT 80
-#define X_PER_I (1.667)
+#define X_PER_I (1.663)
 #define Y_PER_I (0.095)
 #define CIRCUMFERENCE (19.45)
 #define MAX_X (CIRCUMFERENCE)
