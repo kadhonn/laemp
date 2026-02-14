@@ -18,11 +18,11 @@ struct HeartsData {
 
 HeartsData hearts_data;
 
-float randomVelocity() {
+float random_heart_velocity() {
     return ((float) random(0, 100) - 50.f) / 150.f;
 }
 
-int randomDuration() {
+int random_heart_duration() {
     return random(3, 10) * FPS;
 }
 
@@ -32,9 +32,9 @@ void setup_hearts() {
         hearts_data.hearts[i] = Heart{
                 (float) random(0, FIELD_WIDTH),
                 (float) random(0, FIELD_HEIGHT),
-                randomVelocity(),
-                randomVelocity(),
-                randomDuration(),
+                random_heart_velocity(),
+                random_heart_velocity(),
+                random_heart_duration(),
                 random(3, 6)
         };
     }
@@ -54,9 +54,9 @@ void render_hearts(int hue) {
 void update_hearts() {
     for (int i = 0; i < NUM_HEARTS; i++) {
         if (hearts_data.hearts[i].change_vel <= hearts_data.tick) {
-            hearts_data.hearts[i].change_vel = hearts_data.tick + randomDuration();
-            hearts_data.hearts[i].vel_x = randomVelocity();
-            hearts_data.hearts[i].vel_y = randomVelocity();
+            hearts_data.hearts[i].change_vel = hearts_data.tick + random_heart_duration();
+            hearts_data.hearts[i].vel_x = random_heart_velocity();
+            hearts_data.hearts[i].vel_y = random_heart_velocity();
         }
         hearts_data.hearts[i].x += hearts_data.hearts[i].vel_x;
         hearts_data.hearts[i].y += hearts_data.hearts[i].vel_y;
