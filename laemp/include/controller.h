@@ -18,6 +18,10 @@ void set_autoloop(bool autoloop);
 
 void set_random(bool random);
 
+void show_waiting();
+void show_wifi();
+void show_ap();
+
 void setup_controller();
 
 void loop_controller();

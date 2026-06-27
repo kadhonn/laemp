@@ -22,15 +22,15 @@ struct Sample {
 #define FIXED_SAMPLE (-1)
 #define SAMPLES_SIZE 9
 Sample samples[SAMPLES_SIZE] = {
-        {"Rainbow Rows",    &setup_rainbow_rows,     &rainbow_rows},
-        {"Rainbow Solid",   &setup_rainbow_solid,    &rainbow_solid},
-        {"Rolling Ball",    &setup_rolling_ball,     &rolling_ball},
-        {"Rainbow Columns", &setup_vertical_stripes, &vertical_stripes},
-        {"Hearts",          &setup_hearts,           &hearts},
-        {"Bubbles",         &setup_bubbles,          &bubbles},
-        {"Noise",           &setup_noise,            &noise},
-        {"Fireflies",       &setup_fireflies,        &fireflies},
-        {"Painter",         &setup_painter,          &painter},
+    {"Rainbow Rows", &setup_rainbow_rows, &rainbow_rows},
+    {"Rainbow Solid", &setup_rainbow_solid, &rainbow_solid},
+    {"Rolling Ball", &setup_rolling_ball, &rolling_ball},
+    {"Rainbow Columns", &setup_vertical_stripes, &vertical_stripes},
+    {"Hearts", &setup_hearts, &hearts},
+    {"Bubbles", &setup_bubbles, &bubbles},
+    {"Noise", &setup_noise, &noise},
+    {"Fireflies", &setup_fireflies, &fireflies},
+    {"Painter", &setup_painter, &painter},
 };
 
 Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL);
@@ -88,7 +88,7 @@ void setup_controller() {
     }
     setup_field();
     strip.setBrightness(60);
-//    strip.setBrightness(90); //is max
+    //    strip.setBrightness(90); //is max
     strip.begin();
 }
 
@@ -115,11 +115,11 @@ State get_current_state() {
         sample_names[i] = &samples[i].name;
     }
     return State{
-            currentSample,
-            autoLoop,
-            randomLoop,
-            sample_names,
-            SAMPLES_SIZE
+        currentSample,
+        autoLoop,
+        randomLoop,
+        sample_names,
+        SAMPLES_SIZE
     };
 }
 
@@ -130,4 +130,25 @@ void set_autoloop(bool autoloop_new) {
 
 void set_random(bool random) {
     randomLoop = random;
+}
+
+void show_waiting() {
+    for (int i = 0; i < LEDS_COUNT; i++) {
+        strip.setLedColorData(i, 255 / 2, 255 / 2, 0);
+    }
+    strip.show();
+}
+
+void show_wifi() {
+    for (int i = 0; i < LEDS_COUNT; i++) {
+        strip.setLedColorData(i, 0, 255 / 2, 0);
+    }
+    strip.show();
+}
+
+void show_ap() {
+    for (int i = 0; i < LEDS_COUNT; i++) {
+        strip.setLedColorData(i, 0, 0, 255 / 2);
+    }
+    strip.show();
 }

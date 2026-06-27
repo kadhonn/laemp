@@ -11,22 +11,40 @@ IPAddress ip(192, 168, 0, 103);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 255, 0);
 
+char fallBackSsid[] = "laemp";
+char fallBackKey[] = "laemplaemp";
+
 AsyncWebServer server(80);
+bool fallback_active = false;
 
 void ensure_connected() {
-    WiFi.config(ip, gateway, subnet);
-    WiFi.begin(ssid, key);
-    //TODO need to wait?
-//    Serial.println("waiting");
-//    while (WiFi.status() != WL_CONNECTED) {
-//        delay(10);
-//        Serial.print(".");
-//    }
+    if (!fallback_active && WiFi.status() != WL_CONNECTED) {
+        show_waiting();
+        WiFi.config(ip, gateway, subnet);
+        WiFi.begin(ssid, key);
+        show_waiting();
+        delay(1000);
+        while (WiFi.status() == WL_IDLE_STATUS) {
+            delay(100);
+        }
+
+        // Serial.println(WiFi.status());
+        if (WiFi.status() == WL_CONNECTED) {
+            show_wifi();
+        } else {
+            //fallback to open our own ap
+            show_ap();
+            WiFi.softAPConfig(ip, gateway, subnet);
+            WiFi.softAP(fallBackSsid, fallBackKey);
+            fallback_active = true;
+        }
+        delay(1000);
+    }
 }
 
 void loop_server() {
     //do we really want to do this?
-//    ensure_connected();
+    ensure_connected();
 }
 
 
