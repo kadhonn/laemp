@@ -2,7 +2,7 @@
 
 #define BALL_WIDTH (3)
 #define INITIAL_SPEED (0.5)
-#define ACCELERATION (0.001)
+#define ACCELERATION (0.01)
 
 struct RollingBallData {
     float pos;
