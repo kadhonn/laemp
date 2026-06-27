@@ -10,6 +10,7 @@
 #include "noise_sample.h"
 #include "fireflies.h"
 #include "painter.h"
+#include "floppylaemp.h"
 
 struct Sample {
     std::string name;
@@ -20,7 +21,7 @@ struct Sample {
 };
 
 #define FIXED_SAMPLE (-1)
-#define SAMPLES_SIZE 9
+#define SAMPLES_SIZE 10
 Sample samples[SAMPLES_SIZE] = {
     {"Rainbow Rows", &setup_rainbow_rows, &rainbow_rows},
     {"Rainbow Solid", &setup_rainbow_solid, &rainbow_solid},
@@ -29,8 +30,9 @@ Sample samples[SAMPLES_SIZE] = {
     {"Hearts", &setup_hearts, &hearts},
     {"Bubbles", &setup_bubbles, &bubbles},
     {"Noise", &setup_noise, &noise},
-    {"Fireflies", &setup_fireflies, &fireflies},
+    {"Fireflies", &setup_fireflies, &floppylaemp},
     {"Painter", &setup_painter, &painter},
+    {"Floppy Laemp", &setup_floppylaemp, &floppylaemp},
 };
 
 Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL);
