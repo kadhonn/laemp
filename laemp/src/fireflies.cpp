@@ -2,9 +2,10 @@
 #include "figures.h"
 
 #define NUM_FIREFLIES 20
-#define BLINK_DURATION_TICKS ((int)round(0.5*FPS))
-#define INFLUENCE_TICKS ((int)round(0.2*FPS))
-#define MIN_DELAY_TICKS ((int)round(2*FPS))
+#define MIN_BLINK_DURATION_TICKS ((int)round(1.0*FPS))
+#define MAX_BLINK_DURATION_TICKS ((int)round(2.0*FPS))
+#define INFLUENCE_TICKS ((int)round(0.05*FPS))
+#define MIN_DELAY_TICKS ((int)round(8*FPS))
 
 struct Firefly {
     float x;
@@ -15,6 +16,7 @@ struct Firefly {
     int internalTimeout;
     int lastBlink;
     int ticksTillNextBlink;
+    int blinkDuration;
 };
 
 struct FireflyData {
@@ -26,7 +28,7 @@ FireflyData fireflies_data;
 
 
 float random_firefly_velocity() {
-    return ((float) random(0, 100) - 50.f) / 150.f;
+    return ((float) random(0, 100) - 50.f) / 300.f;
 }
 
 int random_firefly_duration() {
@@ -36,15 +38,17 @@ int random_firefly_duration() {
 void setup_fireflies() {
     fireflies_data.tick = 0;
     for (int i = 0; i < NUM_FIREFLIES; i++) {
+        int blinkDuration = random(MIN_BLINK_DURATION_TICKS, MAX_BLINK_DURATION_TICKS);
         fireflies_data.fireflies[i] = Firefly{
             (float) random(0, FIELD_WIDTH),
             (float) random(0, FIELD_HEIGHT),
             random_firefly_velocity(),
             random_firefly_velocity(),
             random_firefly_duration(),
-            random(5 * FPS, 8 * FPS),
-            -BLINK_DURATION_TICKS,
-            random(0 * FPS, 8 * FPS) + BLINK_DURATION_TICKS
+            random(5 * FPS, 15 * FPS),
+            -blinkDuration,
+            random(0 * FPS, 8 * FPS) + blinkDuration,
+            blinkDuration
         };
     }
 }
@@ -59,8 +63,8 @@ void render_fireflies() {
         int y_pos = (int) round(currentFireFly.y);
         uint32_t brightness = 0;
         uint32_t timeSinceLastBlink = fireflies_data.tick - currentFireFly.lastBlink;
-        if (timeSinceLastBlink < BLINK_DURATION_TICKS) {
-            brightness = round(100 * sin(map(timeSinceLastBlink, 0, BLINK_DURATION_TICKS, 0, PI)));
+        if (timeSinceLastBlink < currentFireFly.blinkDuration) {
+            brightness = round(100 * sin(map(timeSinceLastBlink, 0, currentFireFly.blinkDuration, 0, PI)));
         }
         uint32_t color = strip.hsv2rgb(hue, 50, brightness);
 
@@ -80,7 +84,7 @@ void update_fireflies() {
         currentFireFly.y += currentFireFly.vel_y;
 
         if (currentFireFly.lastBlink + currentFireFly.ticksTillNextBlink < fireflies_data.tick
-            && currentFireFly.lastBlink + BLINK_DURATION_TICKS < fireflies_data.tick) {
+            && currentFireFly.lastBlink + currentFireFly.blinkDuration < fireflies_data.tick) {
             currentFireFly.lastBlink = fireflies_data.tick;
             currentFireFly.ticksTillNextBlink = currentFireFly.internalTimeout;
             for (int j = 0; j < NUM_FIREFLIES; j++) {
